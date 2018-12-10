@@ -1,10 +1,10 @@
 <template>
   <li class="line task">
     <div v-bind:class="{ strike: task.done }">{{ task.text }}</div>
-    <button v-if="task.done" class="delete">
+    <button v-if="task.done" class="delete"v-on:click="deleteTask">
       Effacer
     </button>
-    <button class="done" @click="toggle">
+    <button class="done" v-on:click="toggle">
       {{ task.done ? 'A terminer' : 'Terminé' }}
     </button>
   </li>
@@ -17,6 +17,9 @@ export default {
   methods: {
     toggle () {
       this.$emit('toggle')
+    },
+    deleteTask () {
+      this.$emit('delete')
     }
   }
 }

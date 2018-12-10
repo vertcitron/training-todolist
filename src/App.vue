@@ -6,7 +6,8 @@
       <task-line v-for="(task, i) in tasks"
                  v-bind:key="`task_${i}`"
                  v-bind:task="task"
-                 v-on:toggle="toggleTask(i)"></task-line>
+                 v-on:toggle="toggleTask(i)"
+                 v-on:delete="deleteTask(i)"></task-line>
     </ul>
   </div>
 </template>
@@ -29,10 +30,26 @@ export default {
         created: Date.now(),
         done: false
       })
+      this.saveTasks()
     },
     toggleTask (i) {
       this.tasks[i].done = !this.tasks[i].done
+      this.saveTasks()
+    },
+    deleteTask (i) {
+      this.tasks.splice(i, 1)
+      this.saveTasks()
+    },
+    saveTasks () {
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
+    },
+    restoreTasks () {
+      const stor = localStorage.getItem('tasks')
+      if (stor) this.tasks = JSON.parse(stor)
     }
+  },
+  mounted () {
+    this.restoreTasks()
   }
 }
 </script>

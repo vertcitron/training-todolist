@@ -1,15 +1,39 @@
 <template>
   <div id="app">
     <header>Todo List</header>
-    <add-task></add-task>
+    <add-task v-on:input="addTask"></add-task>
+    <ul class="list">
+      <task-line v-for="(task, i) in tasks"
+                 v-bind:key="`task_${i}`"
+                 v-bind:task="task"
+                 v-on:toggle="toggleTask(i)"></task-line>
+    </ul>
   </div>
 </template>
 
 <script>
 import AddTask from './components/AddTask'
+import TaskLine from './components/TaskLine'
 export default {
   name: 'app',
-  components: { AddTask }
+  components: { AddTask, TaskLine },
+  data () {
+    return {
+      tasks: []
+    }
+  },
+  methods: {
+    addTask (taskText) {
+      this.tasks.push({
+        text: taskText,
+        created: Date.now(),
+        done: false
+      })
+    },
+    toggleTask (i) {
+      this.tasks[i].done = !this.tasks[i].done
+    }
+  }
 }
 </script>
 
@@ -27,6 +51,7 @@ body {
   width: 75%;
   border-radius: 6px;
   padding: 12px;
+  box-shadow: 2px 2px 6px rgba(black, 0.33);
   header {
     font-size: 24px;
     font-weight: bold;
@@ -66,5 +91,14 @@ body {
       background-color: white;
     }
   }
+  ul.list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+}
+::placeholder {
+  color: #444;
+  opacity: 0.5;
 }
 </style>

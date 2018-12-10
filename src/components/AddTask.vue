@@ -1,6 +1,6 @@
 <template>
   <div class="line add-task">
-    <input class="wide" type="text" v-model="newTask" />
+    <input class="wide" type="text" placeholder="Nouvelle tâche" v-model="newTask" />
     <button @click="addTask">Ajouter</button>
   </div>
 </template>
